@@ -193,21 +193,19 @@ body {
     <section class="glass-strong rounded-2xl overflow-hidden mb-8 slide-up" style="animation-delay:0.7s">
      <div class="overflow-x-auto">
       <table class="w-full text-sm hidden md:table">
-       <thead>
-        <tr class="border-b border-amber-600/20 text-xs text-amber-700 uppercase tracking-wider">
-         <th class="px-4 py-3 text-left">ID</th>
-         <th class="px-4 py-3 text-left">Client</th>
-         <th class="px-4 py-3 text-left">Feature</th>
-         <th class="px-4 py-3 text-left">Type</th>
-         <th class="px-4 py-3 text-right">Hours</th>
-         <th class="px-4 py-3 text-right">Rate</th>
-         <th class="px-4 py-3 text-right">Total</th>
-         <th class="px-4 py-3 text-right">Paid</th>
-         <th class="px-4 py-3 text-right">Due</th>
-         <th class="px-4 py-3 text-center">Status</th>
-         <th class="px-4 py-3">Progress</th>
-        </tr>
-       </thead>
+        <thead>
+         <tr class="border-b border-amber-600/20 text-xs text-amber-700 uppercase tracking-wider">
+          <th class="px-4 py-3 text-left">ID</th>
+          <th class="px-4 py-3 text-left">Feature</th>
+          <th class="px-4 py-3 text-right sortable cursor-pointer hover:text-amber-900" data-sort="hoursWorked">Hours</th>
+          <th class="px-4 py-3 text-right sortable cursor-pointer hover:text-amber-900" data-sort="totalAmount">Total</th>
+          <th class="px-4 py-3 text-right sortable cursor-pointer hover:text-amber-900" data-sort="amountPaid">Paid</th>
+          <th class="px-4 py-3 text-right">Pending</th>
+          <th class="px-4 py-3 text-center sortable cursor-pointer hover:text-amber-900" data-sort="paymentStatus">Status</th>
+          <th class="px-4 py-3 text-left">Date</th>
+          <th class="px-4 py-3">Progress</th>
+         </tr>
+        </thead>
        <tbody id="table-body"></tbody>
       </table><!-- Mobile Cards -->
       <div id="mobile-cards" class="md:hidden space-y-3 p-4"></div>
@@ -248,17 +246,13 @@ body {
    </div>
   </div>
   <script>
-// Data
-const features = [
-  { id: "FL-001", client: "TechVista", feature: "WhatsApp Business Integration", type: "API Integration", hours: 48, rate: 1500, total: 72000, paid: 72000, remaining: 0, status: "paid" },
-  { id: "FL-002", client: "ShopEase", feature: "Shopify Custom App", type: "Shopify Dev", hours: 65, rate: 1500, total: 97500, paid: 60000, remaining: 37500, status: "partial" },
-  { id: "FL-003", client: "HealthFirst", feature: "AI Chatbot Setup", type: "AI/ML", hours: 32, rate: 1800, total: 57600, paid: 0, remaining: 57600, status: "pending" },
-  { id: "FL-004", client: "CreativeHub", feature: "Portfolio Website", type: "Web Dev", hours: 40, rate: 1500, total: 60000, paid: 60000, remaining: 0, status: "paid" },
-  { id: "FL-005", client: "DataFlow", feature: "REST API Gateway", type: "API Integration", hours: 55, rate: 1500, total: 82500, paid: 82500, remaining: 0, status: "paid" },
-  { id: "FL-006", client: "TechVista", feature: "Analytics Dashboard", type: "Dashboard", hours: 72, rate: 1500, total: 108000, paid: 50000, remaining: 58000, status: "partial" },
-  { id: "FL-007", client: "EduLearn", feature: "Course Platform UI", type: "Web Dev", hours: 38, rate: 1400, total: 53200, paid: 53200, remaining: 0, status: "paid" },
-  { id: "FL-008", client: "FinTrack", feature: "Payment Module", type: "API Integration", hours: 28, rate: 1800, total: 50400, paid: 0, remaining: 50400, status: "pending" },
-];
+// API Configuration
+const API_URL = "https://script.googleusercontent.com/macros/echo?user_content_key=AUkAhnSwcmekUyJrX1sDB5p4d79sQC8xgqKM8gh6n1kzEENpRDNSvKNUOO35Ae7McXcJFbiHzcPQfTo8z99R-qhppRD-uNzF2g3gM8cGtcXTxjnQGCGzWHGYVzOWg_77fl66nY4p6YoMyFQP0XAPtjzkU4S-YATg886KWmjrkXXIzTxd6tlzag_eRLsz5k1DUmTGhRYaGM3t-lP578lOpf1p36pbmpSxommYmj5B5F2zj2wcdLkeKbaMYWQiIp-F5JIhD9XjUMG6LLDicME71eY&lib=MhiXjtt-D9uUvYaIEuX0drFbHKJkfWcG0";
+
+// State
+let allData = [];
+let activeFilter = 'all';
+let sortConfig = { key: null, asc: true };
 
 const timelineData = [
   { icon: "check-circle", color: "text-green-700", text: "Feature Delivered: Analytics Dashboard for TechVista", time: "2 hours ago" },
@@ -268,39 +262,108 @@ const timelineData = [
   { icon: "check-circle", color: "text-green-700", text: "Feature Delivered: REST API Gateway for DataFlow", time: "1 week ago" },
 ];
 
-// Render table
+// Load data when DOM is ready
+window.addEventListener("DOMContentLoaded", loadData);
+
+// Fetch data from API and initialize dashboard
+async function loadData() {
+  const tbody = document.getElementById('table-body');
+  tbody.innerHTML = '<tr><td colspan="9" class="px-4 py-8 text-center text-amber-700">Loading data...</td></tr>';
+  try {
+    const response = await fetch(API_URL);
+    if (!response.ok) throw new Error('HTTP ' + response.status);
+    const json = await response.json();
+    if (!json.success) throw new Error('API returned unsuccessful response');
+    allData = json.data.map(item => ({
+      id: item.ID,
+      featureName: item["Feature Name"],
+      hoursWorked: item["Hours Worked"],
+      totalAmount: item["Total Amount"],
+      amountPaid: item["Amount Paid"],
+      pendingAmount: item.pendingAmount,
+      paymentStatus: item["Payment Status"].toLowerCase(),
+      date: item.Date
+    }));
+    updateDashboard(allData);
+    applyFilters();
+    animateCounters();
+    renderEarningsChart();
+    renderHoursChart();
+    renderClientChart();
+    renderCategoryChart();
+    renderTimeline();
+    lucide.createIcons();
+  } catch (error) {
+    console.error('Failed to load data:', error);
+    tbody.innerHTML = '<tr><td colspan="9" class="px-4 py-8 text-center text-red-700">Failed to load data. Please try again later.</td></tr>';
+  }
+}
+
+// Update dashboard summary cards with computed values
+function updateDashboard(data) {
+  const totalEarnings = data.reduce((s, i) => s + i.totalAmount, 0);
+  const amountReceived = data.reduce((s, i) => s + i.amountPaid, 0);
+  const pendingAmount = data.reduce((s, i) => s + i.pendingAmount, 0);
+  const featuresDelivered = data.length;
+  const hoursLogged = data.reduce((s, i) => s + i.hoursWorked, 0);
+  const cards = document.querySelectorAll('.counter');
+  if (cards.length >= 4) {
+    cards[0].dataset.target = totalEarnings;
+    cards[1].dataset.target = amountReceived;
+    document.querySelector('.gradient-card-2 div:last-child').textContent = 'Amount Received';
+    cards[2].dataset.target = featuresDelivered;
+    cards[3].dataset.target = hoursLogged;
+  }
+  const headerBox = document.querySelector('.glass.rounded-xl.text-right');
+  if (headerBox) {
+    headerBox.querySelector('.text-xs').textContent = 'Pending Amount';
+    headerBox.querySelector('.text-lg').textContent = '₹' + pendingAmount.toLocaleString('en-IN');
+    headerBox.querySelector('.text-lg').className = 'text-lg font-700 text-red-700 font-mono';
+  }
+}
+
+// Render table rows from filtered/sorted data
 function renderTable(data) {
   const tbody = document.getElementById('table-body');
   const mobile = document.getElementById('mobile-cards');
   tbody.innerHTML = '';
   mobile.innerHTML = '';
-  data.forEach(f => {
-    const pct = f.total > 0 ? Math.round((f.paid / f.total) * 100) : 0;
-    const statusClass = f.status === 'paid' ? 'bg-green-600/20 text-green-700' : f.status === 'partial' ? 'bg-amber-600/20 text-amber-700' : 'bg-red-600/20 text-red-700';
-    const barColor = f.status === 'paid' ? 'bg-green-700' : f.status === 'partial' ? 'bg-amber-700' : 'bg-red-700';
-    tbody.innerHTML += `<tr class="table-row border-b border-amber-600/10 cursor-pointer" onclick="this.nextElementSibling.classList.toggle('open')">
-      <td class="px-4 py-3 font-mono text-xs text-amber-700">${f.id}</td>
-      <td class="px-4 py-3 font-500 text-amber-900">${f.client}</td>
-      <td class="px-4 py-3 text-amber-900">${f.feature}</td>
-      <td class="px-4 py-3 text-xs text-amber-700">${f.type}</td>
-      <td class="px-4 py-3 text-right font-mono text-amber-900">${f.hours}h</td>
-      <td class="px-4 py-3 text-right font-mono text-xs text-amber-700">₹${f.rate.toLocaleString()}</td>
-      <td class="px-4 py-3 text-right font-mono font-500 text-amber-900">₹${f.total.toLocaleString()}</td>
-      <td class="px-4 py-3 text-right font-mono text-green-700">₹${f.paid.toLocaleString()}</td>
-      <td class="px-4 py-3 text-right font-mono ${f.remaining > 0 ? 'text-red-700' : 'text-amber-700'}">₹${f.remaining.toLocaleString()}</td>
-      <td class="px-4 py-3 text-center"><span class="text-xs px-2 py-0.5 rounded-full ${statusClass} capitalize">${f.status}</span></td>
-      <td class="px-4 py-3 w-24"><div class="h-1.5 bg-amber-600/10 rounded-full overflow-hidden"><div class="h-full ${barColor} progress-bar rounded-full" style="width:${pct}%"></div></div></td>
-    </tr>
-    <tr class="expandable"><td colspan="11" class="px-6 py-3 bg-amber-600/5"><div class="text-xs text-amber-700 grid grid-cols-3 gap-4"><div><span class="text-amber-600">Progress:</span> ${pct}%</div><div><span class="text-amber-600">Category:</span> ${f.type}</div><div><span class="text-amber-600">Effective Rate:</span> ₹${Math.round(f.paid/f.hours).toLocaleString()}/hr earned</div></div></td></tr>`;
-    mobile.innerHTML += `<div class="glass rounded-xl p-4 card-hover"><div class="flex justify-between items-start mb-2"><div><div class="font-500 text-amber-900">${f.feature}</div><div class="text-xs text-amber-700">${f.client} · ${f.type}</div></div><span class="text-xs px-2 py-0.5 rounded-full ${statusClass} capitalize">${f.status}</span></div><div class="flex justify-between text-xs text-amber-700 mt-2"><span>${f.hours}h</span><span>₹${f.total.toLocaleString()}</span></div><div class="h-1.5 bg-amber-600/10 rounded-full overflow-hidden mt-2"><div class="h-full ${barColor} progress-bar rounded-full" style="width:${pct}%"></div></div></div>`;
+  let sorted = [...data];
+  if (sortConfig.key) {
+    sorted.sort((a, b) => {
+      let va = a[sortConfig.key], vb = b[sortConfig.key];
+      if (typeof va === 'string') { va = va.toLowerCase(); vb = vb.toLowerCase(); }
+      return va < vb ? (sortConfig.asc ? -1 : 1) : va > vb ? (sortConfig.asc ? 1 : -1) : 0;
+    });
+  }
+  sorted.forEach(function(item) {
+    const pct = item.totalAmount > 0 ? Math.round((item.amountPaid / item.totalAmount) * 100) : 0;
+    const statusClass = item.paymentStatus === 'paid' ? 'bg-green-600/20 text-green-700' : item.paymentStatus === 'partial' ? 'bg-amber-600/20 text-amber-700' : 'bg-red-600/20 text-red-700';
+    const barColor = item.paymentStatus === 'paid' ? 'bg-green-700' : item.paymentStatus === 'partial' ? 'bg-amber-700' : 'bg-red-700';
+    tbody.innerHTML += '<tr class="table-row border-b border-amber-600/10 cursor-pointer">' +
+      '<td class="px-4 py-3 font-mono text-xs text-amber-700">' + item.id + '</td>' +
+      '<td class="px-4 py-3 text-amber-900">' + item.featureName + '</td>' +
+      '<td class="px-4 py-3 text-right font-mono text-amber-900">' + item.hoursWorked + 'h</td>' +
+      '<td class="px-4 py-3 text-right font-mono font-500 text-amber-900">₹' + item.totalAmount.toLocaleString('en-IN') + '</td>' +
+      '<td class="px-4 py-3 text-right font-mono text-green-700">₹' + item.amountPaid.toLocaleString('en-IN') + '</td>' +
+      '<td class="px-4 py-3 text-right font-mono text-red-700">₹' + item.pendingAmount.toLocaleString('en-IN') + '</td>' +
+      '<td class="px-4 py-3 text-center"><span class="text-xs px-2 py-0.5 rounded-full ' + statusClass + ' capitalize">' + item.paymentStatus + '</span></td>' +
+      '<td class="px-4 py-3 text-xs text-amber-700">' + item.date + '</td>' +
+      '<td class="px-4 py-3 w-24"><div class="h-1.5 bg-amber-600/10 rounded-full overflow-hidden"><div class="h-full ' + barColor + ' progress-bar rounded-full" style="width:' + pct + '%"></div></div></td>' +
+    '</tr>';
+    mobile.innerHTML += '<div class="glass rounded-xl p-4 card-hover">' +
+      '<div class="flex justify-between items-start mb-2"><div><div class="font-500 text-amber-900">' + item.featureName + '</div><div class="text-xs text-amber-700">ID: ' + item.id + '</div></div>' +
+      '<span class="text-xs px-2 py-0.5 rounded-full ' + statusClass + ' capitalize">' + item.paymentStatus + '</span></div>' +
+      '<div class="flex justify-between text-xs text-amber-700 mt-2"><span>' + item.hoursWorked + 'h</span><span>₹' + item.totalAmount.toLocaleString('en-IN') + '</span></div>' +
+      '<div class="h-1.5 bg-amber-600/10 rounded-full overflow-hidden mt-2"><div class="h-full ' + barColor + ' progress-bar rounded-full" style="width:' + pct + '%"></div></div>' +
+    '</div>';
   });
 }
 
-// Filters
-let activeFilter = 'all';
-document.querySelectorAll('.filter-btn').forEach(btn => {
-  btn.addEventListener('click', () => {
-    document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+// Filter buttons
+document.querySelectorAll('.filter-btn').forEach(function(btn) {
+  btn.addEventListener('click', function() {
+    document.querySelectorAll('.filter-btn').forEach(function(b) { b.classList.remove('active'); });
     btn.classList.add('active');
     activeFilter = btn.dataset.filter;
     applyFilters();
@@ -308,74 +371,81 @@ document.querySelectorAll('.filter-btn').forEach(btn => {
 });
 document.getElementById('search-input').addEventListener('input', applyFilters);
 
+// Apply filters and search on the local dataset
 function applyFilters() {
-  const q = document.getElementById('search-input').value.toLowerCase();
-  let filtered = features.filter(f => {
-    if (activeFilter !== 'all' && activeFilter !== 'month' && f.status !== activeFilter) return false;
-    if (q && !f.feature.toLowerCase().includes(q) && !f.client.toLowerCase().includes(q)) return false;
+  var q = document.getElementById('search-input').value.toLowerCase();
+  var filtered = allData.filter(function(item) {
+    if (activeFilter !== 'all' && activeFilter !== 'month' && item.paymentStatus !== activeFilter) return false;
+    if (q && item.featureName.toLowerCase().indexOf(q) === -1 && String(item.id).toLowerCase().indexOf(q) === -1) return false;
     return true;
   });
   renderTable(filtered);
 }
 
-// Charts
+// Sorting
+document.querySelectorAll('th.sortable').forEach(function(th) {
+  th.addEventListener('click', function() {
+    var key = th.dataset.sort;
+    if (sortConfig.key === key) {
+      sortConfig.asc = !sortConfig.asc;
+    } else {
+      sortConfig.key = key;
+      sortConfig.asc = true;
+    }
+    document.querySelectorAll('th.sortable').forEach(function(h) { h.classList.remove('sort-asc', 'sort-desc'); });
+    th.classList.add(sortConfig.asc ? 'sort-asc' : 'sort-desc');
+    applyFilters();
+  });
+});
+
+// Charts (static sample data)
 function renderEarningsChart() {
   const data = [85000, 142000, 168000, 195000, 213000, 284500];
   const max = Math.max(...data);
   const container = document.getElementById('earnings-chart');
-  container.innerHTML = data.map((v, i) => `<div class="flex-1 flex flex-col items-center gap-1"><div class="w-full bg-amber-600/20 rounded-t-lg relative overflow-hidden" style="height:0%" data-height="${(v/max)*100}%"><div class="absolute inset-0 bg-gradient-to-t from-amber-700 to-amber-600 opacity-60 rounded-t-lg"></div></div><div class="text-xs font-mono text-amber-700">₹${(v/1000).toFixed(0)}k</div></div>`).join('');
-  setTimeout(() => container.querySelectorAll('[data-height]').forEach(el => el.style.height = el.dataset.height), 100);
+  container.innerHTML = data.map((v, i) => '<div class="flex-1 flex flex-col items-center gap-1"><div class="w-full bg-amber-600/20 rounded-t-lg relative overflow-hidden" style="height:0%" data-height="' + ((v/max)*100) + '%"><div class="absolute inset-0 bg-gradient-to-t from-amber-700 to-amber-600 opacity-60 rounded-t-lg"></div></div><div class="text-xs font-mono text-amber-700">₹' + (v/1000).toFixed(0) + 'k</div></div>').join('');
+  setTimeout(function() { container.querySelectorAll('[data-height]').forEach(function(el) { el.style.height = el.dataset.height; }); }, 100);
 }
 
 function renderHoursChart() {
   const data = [95, 120, 135, 148, 160, 174];
   const max = Math.max(...data);
   const container = document.getElementById('hours-chart');
-  container.innerHTML = data.map(v => `<div class="flex-1 flex flex-col items-center gap-1"><div class="w-full bg-green-700/20 rounded-t-lg relative overflow-hidden" style="height:0%" data-height="${(v/max)*100}%"><div class="absolute inset-0 bg-gradient-to-t from-green-700 to-green-600 opacity-60 rounded-t-lg"></div></div><div class="text-xs font-mono text-green-700">${v}h</div></div>`).join('');
-  setTimeout(() => container.querySelectorAll('[data-height]').forEach(el => el.style.height = el.dataset.height), 200);
+  container.innerHTML = data.map(v => '<div class="flex-1 flex flex-col items-center gap-1"><div class="w-full bg-green-700/20 rounded-t-lg relative overflow-hidden" style="height:0%" data-height="' + ((v/max)*100) + '%"><div class="absolute inset-0 bg-gradient-to-t from-green-700 to-green-600 opacity-60 rounded-t-lg"></div></div><div class="text-xs font-mono text-green-700">' + v + 'h</div></div>').join('');
+  setTimeout(function() { container.querySelectorAll('[data-height]').forEach(function(el) { el.style.height = el.dataset.height; }); }, 200);
 }
 
 function renderClientChart() {
   const clients = [{ name: "TechVista", amount: 180000, color: "bg-amber-700" }, { name: "ShopEase", amount: 97500, color: "bg-orange-700" }, { name: "DataFlow", amount: 82500, color: "bg-green-700" }, { name: "CreativeHub", amount: 60000, color: "bg-blue-800" }, { name: "HealthFirst", amount: 57600, color: "bg-red-700" }];
   const max = clients[0].amount;
-  document.getElementById('client-chart').innerHTML = clients.map(c => `<div><div class="flex justify-between text-xs mb-1"><span class="text-amber-700">${c.name}</span><span class="font-mono text-amber-700">₹${(c.amount/1000).toFixed(0)}k</span></div><div class="h-2 bg-amber-600/10 rounded-full overflow-hidden"><div class="h-full ${c.color} rounded-full progress-bar" style="width:${(c.amount/max)*100}%"></div></div></div>`).join('');
+  document.getElementById('client-chart').innerHTML = clients.map(c => '<div><div class="flex justify-between text-xs mb-1"><span class="text-amber-700">' + c.name + '</span><span class="font-mono text-amber-700">₹' + (c.amount/1000).toFixed(0) + 'k</span></div><div class="h-2 bg-amber-600/10 rounded-full overflow-hidden"><div class="h-full ' + c.color + ' rounded-full progress-bar" style="width:' + (c.amount/max)*100 + '%"></div></div></div>').join('');
 }
 
 function renderCategoryChart() {
   const cats = [{ name: "API Integration", amount: 204900, color: "bg-amber-700" }, { name: "Shopify Dev", amount: 97500, color: "bg-orange-700" }, { name: "Dashboard", amount: 108000, color: "bg-green-700" }, { name: "Web Dev", amount: 113200, color: "bg-blue-800" }, { name: "AI/ML", amount: 57600, color: "bg-red-700" }];
   const max = cats[0].amount;
-  document.getElementById('category-chart').innerHTML = cats.map(c => `<div><div class="flex justify-between text-xs mb-1"><span class="text-amber-700">${c.name}</span><span class="font-mono text-amber-700">₹${(c.amount/1000).toFixed(0)}k</span></div><div class="h-2 bg-amber-600/10 rounded-full overflow-hidden"><div class="h-full ${c.color} rounded-full progress-bar" style="width:${(c.amount/max)*100}%"></div></div></div>`).join('');
+  document.getElementById('category-chart').innerHTML = cats.map(c => '<div><div class="flex justify-between text-xs mb-1"><span class="text-amber-700">' + c.name + '</span><span class="font-mono text-amber-700">₹' + (c.amount/1000).toFixed(0) + 'k</span></div><div class="h-2 bg-amber-600/10 rounded-full overflow-hidden"><div class="h-full ' + c.color + ' rounded-full progress-bar" style="width:' + (c.amount/max)*100 + '%"></div></div></div>').join('');
 }
 
 // Timeline
 function renderTimeline() {
-  document.getElementById('timeline').innerHTML = timelineData.map(t => `<div class="flex gap-3 items-start"><div class="timeline-dot w-2 h-2 rounded-full bg-amber-700 mt-2 shrink-0"></div><div class="flex-1"><div class="text-sm text-amber-900">${t.text}</div><div class="text-xs text-amber-700 mt-0.5">${t.time}</div></div></div>`).join('');
+  document.getElementById('timeline').innerHTML = timelineData.map(t => '<div class="flex gap-3 items-start"><div class="timeline-dot w-2 h-2 rounded-full bg-amber-700 mt-2 shrink-0"></div><div class="flex-1"><div class="text-sm text-amber-900">' + t.text + '</div><div class="text-xs text-amber-700 mt-0.5">' + t.time + '</div></div></div>').join('');
 }
 
 // Animated counters
 function animateCounters() {
-  document.querySelectorAll('.counter').forEach(el => {
+  document.querySelectorAll('.counter').forEach(function(el) {
     const target = parseInt(el.dataset.target);
     const isRupee = target > 1000;
     let current = 0;
     const step = Math.ceil(target / 60);
-    const interval = setInterval(() => {
+    const interval = setInterval(function() {
       current += step;
       if (current >= target) { current = target; clearInterval(interval); }
-      el.textContent = isRupee ? `₹${current.toLocaleString('en-IN')}` : current.toLocaleString();
+      el.textContent = isRupee ? '₹' + current.toLocaleString('en-IN') : current.toLocaleString();
     }, 20);
   });
 }
-
-// Init
-renderTable(features);
-renderEarningsChart();
-renderHoursChart();
-renderClientChart();
-renderCategoryChart();
-renderTimeline();
-setTimeout(animateCounters, 300);
-lucide.createIcons();
 
 // Element SDK
 const defaultConfig = {
