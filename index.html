@@ -326,8 +326,6 @@ function updateDashboard(data) {
 function renderTable(data) {
   const tbody = document.getElementById('table-body');
   const mobile = document.getElementById('mobile-cards');
-  tbody.innerHTML = '';
-  mobile.innerHTML = '';
   let sorted = [...data];
   if (sortConfig.key) {
     sorted.sort((a, b) => {
@@ -336,11 +334,14 @@ function renderTable(data) {
       return va < vb ? (sortConfig.asc ? -1 : 1) : va > vb ? (sortConfig.asc ? 1 : -1) : 0;
     });
   }
-  sorted.forEach(function(item) {
-    const pct = item.totalAmount > 0 ? Math.round((item.amountPaid / item.totalAmount) * 100) : 0;
-    const statusClass = item.paymentStatus === 'paid' ? 'bg-green-600/20 text-green-700' : item.paymentStatus === 'partial' ? 'bg-amber-600/20 text-amber-700' : 'bg-red-600/20 text-red-700';
-    const barColor = item.paymentStatus === 'paid' ? 'bg-green-700' : item.paymentStatus === 'partial' ? 'bg-amber-700' : 'bg-red-700';
-    tbody.innerHTML += '<tr class="table-row border-b border-amber-600/10 cursor-pointer">' +
+  var rows = '';
+  var cards = '';
+  for (var i = 0; i < sorted.length; i++) {
+    var item = sorted[i];
+    var pct = item.totalAmount > 0 ? Math.round((item.amountPaid / item.totalAmount) * 100) : 0;
+    var statusClass = item.paymentStatus === 'paid' ? 'bg-green-600/20 text-green-700' : item.paymentStatus === 'partial' ? 'bg-amber-600/20 text-amber-700' : 'bg-red-600/20 text-red-700';
+    var barColor = item.paymentStatus === 'paid' ? 'bg-green-700' : item.paymentStatus === 'partial' ? 'bg-amber-700' : 'bg-red-700';
+    rows += '<tr class="table-row border-b border-amber-600/10 cursor-pointer">' +
       '<td class="px-4 py-3 font-mono text-xs text-amber-700">' + item.id + '</td>' +
       '<td class="px-4 py-3 text-amber-900">' + item.featureName + '</td>' +
       '<td class="px-4 py-3 text-right font-mono text-amber-900">' + item.hoursWorked + 'h</td>' +
@@ -351,13 +352,15 @@ function renderTable(data) {
       '<td class="px-4 py-3 text-xs text-amber-700">' + item.date + '</td>' +
       '<td class="px-4 py-3 w-24"><div class="h-1.5 bg-amber-600/10 rounded-full overflow-hidden"><div class="h-full ' + barColor + ' progress-bar rounded-full" style="width:' + pct + '%"></div></div></td>' +
     '</tr>';
-    mobile.innerHTML += '<div class="glass rounded-xl p-4 card-hover">' +
+    cards += '<div class="glass rounded-xl p-4 card-hover">' +
       '<div class="flex justify-between items-start mb-2"><div><div class="font-500 text-amber-900">' + item.featureName + '</div><div class="text-xs text-amber-700">ID: ' + item.id + '</div></div>' +
       '<span class="text-xs px-2 py-0.5 rounded-full ' + statusClass + ' capitalize">' + item.paymentStatus + '</span></div>' +
       '<div class="flex justify-between text-xs text-amber-700 mt-2"><span>' + item.hoursWorked + 'h</span><span>₹' + item.totalAmount.toLocaleString('en-IN') + '</span></div>' +
       '<div class="h-1.5 bg-amber-600/10 rounded-full overflow-hidden mt-2"><div class="h-full ' + barColor + ' progress-bar rounded-full" style="width:' + pct + '%"></div></div>' +
     '</div>';
-  });
+  }
+  tbody.innerHTML = rows;
+  mobile.innerHTML = cards;
 }
 
 // Filter buttons
