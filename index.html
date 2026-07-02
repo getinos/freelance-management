@@ -1,13 +1,16 @@
 <!doctype html>
 <html lang="en" class="h-full">
- <head><script src="/_sdk/telemetry_sdk.js"></script>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Feature Ledger</title>
+  <head><script src="/_sdk/telemetry_sdk.js"></script>
+   <meta charset="UTF-8">
+   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+   <title>Feature Ledger</title>
+   <link rel="preconnect" href="https://fonts.googleapis.com">
+   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+   <link rel="preconnect" href="https://script.googleusercontent.com">
    <link href="styles.css" rel="stylesheet">
-   <script src="https://cdn.jsdelivr.net/npm/lucide@0.263.0/dist/umd/lucide.min.js"></script>
-   <script src="/_sdk/element_sdk.js"></script>
-   <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&amp;family=JetBrains+Mono:wght@400;500&amp;display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/lucide@0.263.0/dist/umd/lucide.min.js" defer></script>
+    <script src="/_sdk/element_sdk.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&amp;family=JetBrains+Mono:wght@400;500&amp;display=swap" rel="stylesheet">
   <style>
 html, body { height: 100%; margin: 0; }
 body { 
@@ -251,59 +254,107 @@ const timelineData = [
 ];
 
 // Load data when DOM is ready
-window.addEventListener("DOMContentLoaded", loadData);
+window.addEventListener("DOMContentLoaded", function() {
+  initPage();
+  loadData();
+});
 
-// Fetch data from API and initialize dashboard
-async function loadData() {
+// Parse raw API items into our internal format
+function parseItems(dataArray) {
+  var result = [];
+  for (var i = 0; i < dataArray.length; i++) {
+    var item = dataArray[i];
+    if (!item || typeof item !== 'object') continue;
+    result.push({
+      id: item.ID != null ? item.ID : i + 1,
+      featureName: item["Feature Name"] != null ? item["Feature Name"] : '',
+      hoursWorked: item["Hours Worked"] != null ? item["Hours Worked"] : 0,
+      totalAmount: item["Total Amount"] != null ? item["Total Amount"] : 0,
+      amountPaid: item["Amount Paid"] != null ? item["Amount Paid"] : 0,
+      pendingAmount: item.pendingAmount != null ? item.pendingAmount : 0,
+      paymentStatus: (item["Payment Status"] || 'pending').toLowerCase(),
+      date: item.Date != null ? item.Date : ''
+    });
+  }
+  return result;
+}
+
+// Render static parts that don't need API data
+function initPage() {
+  renderEarningsChart();
+  renderHoursChart();
+  renderClientChart();
+  renderCategoryChart();
+  renderTimeline();
+  lucide.createIcons();
+}
+
+// Apply cached data instantly, then update from API
+function loadData() {
+  var cached = loadCachedData();
+  if (cached) {
+    allData = cached;
+    applyFilters();
+    animateCounters();
+  }
+  fetchFreshData();
+}
+
+// Check localStorage for cached data (fresh for 5 minutes)
+function loadCachedData() {
+  try {
+    var raw = localStorage.getItem('dashboard_data');
+    if (!raw) return null;
+    var cache = JSON.parse(raw);
+    if (!cache || !cache.data || !cache.time) return null;
+    var age = Date.now() - cache.time;
+    if (age > 300000) return null;
+    return cache.data;
+  } catch (e) {
+    return null;
+  }
+}
+
+// Save API data to localStorage
+function saveCachedData(data) {
+  try {
+    localStorage.setItem('dashboard_data', JSON.stringify({ data: data, time: Date.now() }));
+  } catch (e) {}
+}
+
+// Fetch fresh data from the API
+async function fetchFreshData() {
   const tbody = document.getElementById('table-body');
-  tbody.innerHTML = '<tr><td colspan="9" class="px-4 py-8 text-center text-amber-700">Loading data...</td></tr>';
+  if (allData.length === 0) {
+    tbody.innerHTML = '<tr><td colspan="9" class="px-4 py-8 text-center text-amber-700">Loading data...</td></tr>';
+  }
   try {
     const response = await fetch(API_URL);
     if (!response.ok) throw new Error('HTTP ' + response.status);
     const text = await response.text();
-    console.log('Raw API response:', text.substring(0, 500));
-    let json;
+    var json;
     try {
       json = JSON.parse(text);
     } catch (e) {
-      throw new Error('Response is not valid JSON. First 200 chars: ' + text.substring(0, 200));
+      throw new Error('Response is not JSON: ' + text.substring(0, 200));
     }
     if (!json || json.success !== true) {
-      throw new Error('API returned unsuccessful response: ' + JSON.stringify(json).substring(0, 200));
+      throw new Error('API error: ' + JSON.stringify(json).substring(0, 200));
     }
     if (!Array.isArray(json.data)) {
-      throw new Error('json.data is not an array. Got: ' + typeof json.data + ' ' + JSON.stringify(json.data).substring(0, 200));
+      throw new Error('json.data not array: ' + typeof json.data);
     }
-    allData = [];
-    for (var i = 0; i < json.data.length; i++) {
-      var item = json.data[i];
-      if (!item || typeof item !== 'object') {
-        console.warn('Skipping invalid item at index', i, item);
-        continue;
-      }
-      allData.push({
-        id: item.ID != null ? item.ID : i + 1,
-        featureName: item["Feature Name"] != null ? item["Feature Name"] : '',
-        hoursWorked: item["Hours Worked"] != null ? item["Hours Worked"] : 0,
-        totalAmount: item["Total Amount"] != null ? item["Total Amount"] : 0,
-        amountPaid: item["Amount Paid"] != null ? item["Amount Paid"] : 0,
-        pendingAmount: item.pendingAmount != null ? item.pendingAmount : 0,
-        paymentStatus: (item["Payment Status"] || 'pending').toLowerCase(),
-        date: item.Date != null ? item.Date : ''
-      });
-    }
+    var freshData = parseItems(json.data);
+    saveCachedData(freshData);
+    allData = freshData;
     updateDashboard(allData);
     applyFilters();
     animateCounters();
-    renderEarningsChart();
-    renderHoursChart();
-    renderClientChart();
-    renderCategoryChart();
-    renderTimeline();
-    lucide.createIcons();
   } catch (error) {
-    console.error('Failed to load data:', error);
-    tbody.innerHTML = '<tr><td colspan="9" class="px-4 py-8 text-center text-red-700">Failed to load data. Please try again later.</td></tr>';
+    console.error('API fetch failed:', error);
+    if (allData.length === 0) {
+      tbody.innerHTML = '<tr><td colspan="9" class="px-4 py-8 text-center text-red-700">Failed to load data.</td></tr>';
+    }
   }
 }
 
