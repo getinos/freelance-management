@@ -51,6 +51,8 @@ body {
 ::-webkit-scrollbar { width: 6px; }
 ::-webkit-scrollbar-track { background: transparent; }
 ::-webkit-scrollbar-thumb { background: rgba(139,90,43,0.3); border-radius: 3px; }
+.skeleton { background: linear-gradient(90deg, rgba(210,170,120,0.12) 25%, rgba(210,170,120,0.3) 50%, rgba(210,170,120,0.12) 75%); background-size: 200% 100%; animation: skeleton-pulse 1.5s ease-in-out infinite; border-radius: 4px; color: transparent !important; }
+@keyframes skeleton-pulse { 0% { background-position: 200% 0; } 100% { background-position: -200% 0; } }
 </style>
   <style>body { box-sizing: border-box; }</style>
   <script src="/_sdk/data_sdk.js" type="text/javascript"></script>
@@ -80,9 +82,7 @@ body {
         <div class="text-xs text-amber-600 uppercase tracking-wider">
          This Month
         </div>
-        <div class="text-lg font-700 text-green-700 font-mono">
-         ₹2,84,500
-        </div>
+         <div class="text-lg font-700 text-green-700 font-mono skeleton">&nbsp;</div>
        </div>
       </div>
      </div>
@@ -93,11 +93,9 @@ body {
        <div class="w-10 h-10 rounded-xl bg-amber-600/20 flex items-center justify-center"><i data-lucide="indian-rupee" class="w-5 h-5 text-amber-700"></i>
        </div><span class="text-xs text-green-700 font-500 bg-green-600/10 px-2 py-0.5 rounded-full">+23%</span>
       </div>
-      <div class="text-2xl font-700 font-mono counter text-amber-900" data-target="1247500">
-       ₹0
-      </div>
-      <div class="text-xs text-amber-700 mt-1">
-       Total Earnings
+       <div class="text-2xl font-700 font-mono counter text-amber-900 skeleton" data-target="0">&nbsp;</div>
+       <div class="text-xs text-amber-700 mt-1">
+        Total Earnings
       </div>
      </div>
      <div class="gradient-card-2 rounded-2xl p-5 card-hover slide-up" style="animation-delay:0.2s">
@@ -105,11 +103,9 @@ body {
        <div class="w-10 h-10 rounded-xl bg-orange-600/20 flex items-center justify-center"><i data-lucide="clock" class="w-5 h-5 text-orange-700"></i>
        </div><span class="text-xs text-orange-700 font-500 bg-orange-600/10 px-2 py-0.5 rounded-full">3 clients</span>
       </div>
-      <div class="text-2xl font-700 font-mono counter text-amber-900" data-target="186000">
-       ₹0
-      </div>
-      <div class="text-xs text-amber-700 mt-1">
-       Pending Payments
+       <div class="text-2xl font-700 font-mono counter text-amber-900 skeleton" data-target="0">&nbsp;</div>
+       <div class="text-xs text-amber-700 mt-1">
+        Pending Payments
       </div>
      </div>
      <div class="gradient-card-3 rounded-2xl p-5 card-hover slide-up" style="animation-delay:0.3s">
@@ -117,11 +113,9 @@ body {
        <div class="w-10 h-10 rounded-xl bg-green-700/20 flex items-center justify-center"><i data-lucide="check-circle" class="w-5 h-5 text-green-700"></i>
        </div><span class="text-xs text-green-700 font-500 bg-green-600/10 px-2 py-0.5 rounded-full">+5 this month</span>
       </div>
-      <div class="text-2xl font-700 font-mono counter text-green-900" data-target="47">
-       0
-      </div>
-      <div class="text-xs text-amber-700 mt-1">
-       Features Delivered
+       <div class="text-2xl font-700 font-mono counter text-green-900 skeleton" data-target="0">&nbsp;</div>
+       <div class="text-xs text-amber-700 mt-1">
+        Features Delivered
       </div>
      </div>
      <div class="gradient-card-4 rounded-2xl p-5 card-hover slide-up" style="animation-delay:0.4s">
@@ -129,11 +123,9 @@ body {
        <div class="w-10 h-10 rounded-xl bg-blue-900/20 flex items-center justify-center"><i data-lucide="timer" class="w-5 h-5 text-blue-800"></i>
        </div><span class="text-xs text-blue-800 font-500 bg-blue-800/10 px-2 py-0.5 rounded-full">+12%</span>
       </div>
-      <div class="text-2xl font-700 font-mono counter text-blue-900" data-target="832">
-       0
-      </div>
-      <div class="text-xs text-amber-700 mt-1">
-       Hours Logged
+       <div class="text-2xl font-700 font-mono counter text-blue-900 skeleton" data-target="0">&nbsp;</div>
+       <div class="text-xs text-amber-700 mt-1">
+        Hours Logged
       </div>
      </div>
     </section><!-- Mini Stats -->
@@ -300,6 +292,7 @@ function loadData() {
   var cached = loadCachedData();
   if (cached) {
     allData = cached;
+    updateDashboard(allData);
     applyFilters();
     animateCounters();
   }
@@ -374,16 +367,22 @@ function updateDashboard(data) {
   const cards = document.querySelectorAll('.counter');
   if (cards.length >= 4) {
     cards[0].dataset.target = totalEarnings;
+    cards[0].classList.remove('skeleton');
     cards[1].dataset.target = amountReceived;
+    cards[1].classList.remove('skeleton');
     document.querySelector('.gradient-card-2 div:last-child').textContent = 'Amount Received';
     cards[2].dataset.target = featuresDelivered;
+    cards[2].classList.remove('skeleton');
     cards[3].dataset.target = hoursLogged;
+    cards[3].classList.remove('skeleton');
   }
   const headerBox = document.querySelector('.glass.rounded-xl.text-right');
   if (headerBox) {
     headerBox.querySelector('.text-xs').textContent = 'Pending Amount';
-    headerBox.querySelector('.text-lg').textContent = '₹' + pendingAmount.toLocaleString('en-IN');
-    headerBox.querySelector('.text-lg').className = 'text-lg font-700 text-red-700 font-mono';
+    var headerValue = headerBox.querySelector('.text-lg');
+    headerValue.classList.remove('skeleton');
+    headerValue.textContent = '₹' + pendingAmount.toLocaleString('en-IN');
+    headerValue.className = 'text-lg font-700 text-red-700 font-mono';
   }
 }
 
