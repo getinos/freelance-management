@@ -265,13 +265,19 @@ function parseItems(dataArray) {
   for (var i = 0; i < dataArray.length; i++) {
     var item = dataArray[i];
     if (!item || typeof item !== 'object') continue;
+    var name = item["Feature Name"];
+    var hours = item["Hours Worked"];
+    var total = item["Total Amount"];
+    if (name == null || String(name).trim() === '') continue;
+    if (hours == null || hours === '' || Number(hours) === 0) continue;
+    if (total == null || total === '' || Number(total) === 0) continue;
     result.push({
       id: item.ID != null ? item.ID : i + 1,
-      featureName: item["Feature Name"] != null ? item["Feature Name"] : '',
-      hoursWorked: item["Hours Worked"] != null ? item["Hours Worked"] : 0,
-      totalAmount: item["Total Amount"] != null ? item["Total Amount"] : 0,
-      amountPaid: item["Amount Paid"] != null ? item["Amount Paid"] : 0,
-      pendingAmount: item.pendingAmount != null ? item.pendingAmount : 0,
+      featureName: name,
+      hoursWorked: Number(hours),
+      totalAmount: Number(total),
+      amountPaid: Number(item["Amount Paid"] != null ? item["Amount Paid"] : 0),
+      pendingAmount: Number(item.pendingAmount != null ? item.pendingAmount : 0),
       paymentStatus: (item["Payment Status"] || 'pending').toLowerCase(),
       date: item.Date != null ? item.Date : ''
     });
