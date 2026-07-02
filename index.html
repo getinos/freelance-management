@@ -3,8 +3,8 @@
  <head><script src="/_sdk/telemetry_sdk.js"></script>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Feature Ledger...</title>
-  <script src="https://cdn.tailwindcss.com/3.4.17"></script>
+  <title>Feature Ledger</title>
+  <script src="https://cdn.tailwindcss.com"></script>
   <script src="https://cdn.jsdelivr.net/npm/lucide@0.263.0/dist/umd/lucide.min.js"></script>
   <script src="/_sdk/element_sdk.js"></script>
   <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&amp;family=JetBrains+Mono:wght@400;500&amp;display=swap" rel="stylesheet">
@@ -84,13 +84,13 @@ body {
        </div>
       </div>
       <div class="flex items-center gap-3">
-       <span id="hourly-rate-badge" class="glass px-4 py-2 rounded-full text-sm font-mono text-amber-800">₹0/hr</span>
+       <span id="hourly-rate-badge" class="glass px-4 py-2 rounded-full text-sm font-mono text-amber-800">₹1,500/hr</span>
        <div class="glass px-4 py-2 rounded-xl text-right">
         <div class="text-xs text-amber-600 uppercase tracking-wider">
-         Pending Amount
+         This Month
         </div>
-        <div id="hero-pending-amount" class="text-lg font-700 text-red-700 font-mono">
-         ₹0
+        <div class="text-lg font-700 text-green-700 font-mono">
+         ₹2,84,500
         </div>
        </div>
       </div>
@@ -100,9 +100,9 @@ body {
      <div class="gradient-card-1 rounded-2xl p-5 card-hover slide-up" style="animation-delay:0.1s">
       <div class="flex items-center justify-between mb-3">
        <div class="w-10 h-10 rounded-xl bg-amber-600/20 flex items-center justify-center"><i data-lucide="indian-rupee" class="w-5 h-5 text-amber-700"></i>
-       </div><span id="earnings-badge" class="text-xs text-green-700 font-500 bg-green-600/10 px-2 py-0.5 rounded-full">0 features</span>
+       </div><span class="text-xs text-green-700 font-500 bg-green-600/10 px-2 py-0.5 rounded-full">+23%</span>
       </div>
-      <div class="text-2xl font-700 font-mono counter text-amber-900" data-target="0" data-format="currency">
+      <div class="text-2xl font-700 font-mono counter text-amber-900" data-target="1247500">
        ₹0
       </div>
       <div class="text-xs text-amber-700 mt-1">
@@ -111,22 +111,22 @@ body {
      </div>
      <div class="gradient-card-2 rounded-2xl p-5 card-hover slide-up" style="animation-delay:0.2s">
       <div class="flex items-center justify-between mb-3">
-       <div class="w-10 h-10 rounded-xl bg-orange-600/20 flex items-center justify-center"><i data-lucide="wallet" class="w-5 h-5 text-orange-700"></i>
-       </div><span id="received-badge" class="text-xs text-orange-700 font-500 bg-orange-600/10 px-2 py-0.5 rounded-full">0 paid</span>
+       <div class="w-10 h-10 rounded-xl bg-orange-600/20 flex items-center justify-center"><i data-lucide="clock" class="w-5 h-5 text-orange-700"></i>
+       </div><span class="text-xs text-orange-700 font-500 bg-orange-600/10 px-2 py-0.5 rounded-full">3 clients</span>
       </div>
-      <div class="text-2xl font-700 font-mono counter text-amber-900" data-target="0" data-format="currency">
+      <div class="text-2xl font-700 font-mono counter text-amber-900" data-target="186000">
        ₹0
       </div>
       <div class="text-xs text-amber-700 mt-1">
-       Amount Received
+       Pending Payments
       </div>
      </div>
      <div class="gradient-card-3 rounded-2xl p-5 card-hover slide-up" style="animation-delay:0.3s">
       <div class="flex items-center justify-between mb-3">
        <div class="w-10 h-10 rounded-xl bg-green-700/20 flex items-center justify-center"><i data-lucide="check-circle" class="w-5 h-5 text-green-700"></i>
-       </div><span id="delivered-badge" class="text-xs text-green-700 font-500 bg-green-600/10 px-2 py-0.5 rounded-full">0 pending</span>
+       </div><span class="text-xs text-green-700 font-500 bg-green-600/10 px-2 py-0.5 rounded-full">+5 this month</span>
       </div>
-      <div class="text-2xl font-700 font-mono counter text-green-900" data-target="0">
+      <div class="text-2xl font-700 font-mono counter text-green-900" data-target="47">
        0
       </div>
       <div class="text-xs text-amber-700 mt-1">
@@ -136,9 +136,9 @@ body {
      <div class="gradient-card-4 rounded-2xl p-5 card-hover slide-up" style="animation-delay:0.4s">
       <div class="flex items-center justify-between mb-3">
        <div class="w-10 h-10 rounded-xl bg-blue-900/20 flex items-center justify-center"><i data-lucide="timer" class="w-5 h-5 text-blue-800"></i>
-       </div><span id="hours-badge" class="text-xs text-blue-800 font-500 bg-blue-800/10 px-2 py-0.5 rounded-full">0h avg</span>
+       </div><span class="text-xs text-blue-800 font-500 bg-blue-800/10 px-2 py-0.5 rounded-full">+12%</span>
       </div>
-      <div class="text-2xl font-700 font-mono counter text-blue-900" data-target="0">
+      <div class="text-2xl font-700 font-mono counter text-blue-900" data-target="832">
        0
       </div>
       <div class="text-xs text-amber-700 mt-1">
@@ -149,41 +149,41 @@ body {
     <section class="grid grid-cols-2 lg:grid-cols-4 gap-3 mb-8 slide-up" style="animation-delay:0.5s">
      <div class="glass rounded-xl p-4 card-hover">
       <div class="text-xs text-amber-700">
-       Pending Features
+       Active Clients
       </div>
-      <div id="mini-pending-features" class="text-xl font-700 text-amber-900 mt-1">
-       0
+      <div class="text-xl font-700 text-amber-900 mt-1">
+       8
       </div>
      </div>
      <div class="glass rounded-xl p-4 card-hover">
       <div class="text-xs text-amber-700">
-       Completed Features
+       Projects Completed
       </div>
-      <div id="mini-completed-features" class="text-xl font-700 text-amber-900 mt-1">
-       0
+      <div class="text-xl font-700 text-amber-900 mt-1">
+       23
       </div>
      </div>
      <div class="glass rounded-xl p-4 card-hover">
       <div class="text-xs text-amber-700">
        Avg Feature Value
       </div>
-      <div id="mini-avg-value" class="text-xl font-700 text-amber-900 mt-1 font-mono">
-       ₹0
+      <div class="text-xl font-700 text-amber-900 mt-1 font-mono">
+       ₹26,500
       </div>
      </div>
      <div class="glass rounded-xl p-4 card-hover">
       <div class="text-xs text-amber-700">
-       Highest Value Feature
+       Highest Paying Client
       </div>
-      <div id="mini-top-feature" class="text-xl font-700 text-amber-900 mt-1 truncate">
-       —
+      <div class="text-xl font-700 text-amber-900 mt-1">
+       TechVista
       </div>
      </div>
     </section><!-- Search & Filters -->
     <section class="mb-6 slide-up" style="animation-delay:0.6s">
      <div class="flex flex-col sm:flex-row gap-3 items-start sm:items-center">
       <div class="relative flex-1 w-full sm:max-w-sm">
-       <i data-lucide="search" class="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-amber-700"></i> <input id="search-input" type="text" placeholder="Search features..." class="w-full glass rounded-xl pl-10 pr-4 py-2.5 text-sm bg-transparent outline-none focus:border-amber-600/50 placeholder-amber-600">
+       <i data-lucide="search" class="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-amber-700"></i> <input id="search-input" type="text" placeholder="Search features, clients..." class="w-full glass rounded-xl pl-10 pr-4 py-2.5 text-sm bg-transparent outline-none focus:border-amber-600/50 placeholder-amber-600">
       </div>
       <div class="flex flex-wrap gap-2">
        <button class="filter-btn active glass px-3 py-1.5 rounded-lg text-xs" data-filter="all">All</button> <button class="filter-btn glass px-3 py-1.5 rounded-lg text-xs" data-filter="paid">Paid</button> <button class="filter-btn glass px-3 py-1.5 rounded-lg text-xs" data-filter="partial">Partial</button> <button class="filter-btn glass px-3 py-1.5 rounded-lg text-xs" data-filter="pending">Pending</button> <button class="filter-btn glass px-3 py-1.5 rounded-lg text-xs" data-filter="month">This Month</button>
@@ -213,28 +213,32 @@ body {
     </section><!-- Analytics -->
     <section class="grid grid-cols-1 lg:grid-cols-2 gap-4 mb-8 slide-up" style="animation-delay:0.8s">
      <div class="glass-strong rounded-2xl p-5">
-      <h3 class="text-sm font-600 mb-4 text-amber-800">Top Features by Value</h3>
-      <div id="value-chart" class="space-y-3"></div>
+      <h3 class="text-sm font-600 mb-4 text-slate-300">Monthly Earnings Trend</h3>
+      <div class="flex items-end justify-between gap-2 h-40" id="earnings-chart"></div>
+      <div class="flex justify-between text-xs text-slate-600 mt-2"><span>Jul</span><span>Aug</span><span>Sep</span><span>Oct</span><span>Nov</span><span>Dec</span>
+      </div>
      </div>
      <div class="glass-strong rounded-2xl p-5">
-      <h3 class="text-sm font-600 mb-4 text-amber-800">Top Features by Hours</h3>
-      <div id="hours-chart" class="space-y-3"></div>
+      <h3 class="text-sm font-600 mb-4 text-slate-300">Revenue by Client</h3>
+      <div id="client-chart" class="space-y-3"></div>
      </div>
      <div class="glass-strong rounded-2xl p-5">
-      <h3 class="text-sm font-600 mb-4 text-amber-800">Revenue by Payment Status</h3>
-      <div id="status-amount-chart" class="space-y-3"></div>
+      <h3 class="text-sm font-600 mb-4 text-slate-300">Hours Per Month</h3>
+      <div class="flex items-end justify-between gap-2 h-40" id="hours-chart"></div>
+      <div class="flex justify-between text-xs text-slate-600 mt-2"><span>Jul</span><span>Aug</span><span>Sep</span><span>Oct</span><span>Nov</span><span>Dec</span>
+      </div>
      </div>
      <div class="glass-strong rounded-2xl p-5">
-      <h3 class="text-sm font-600 mb-4 text-amber-800">Features by Payment Status</h3>
-      <div id="status-count-chart" class="space-y-3"></div>
+      <h3 class="text-sm font-600 mb-4 text-slate-300">Revenue by Category</h3>
+      <div id="category-chart" class="space-y-3"></div>
      </div>
     </section><!-- Timeline -->
     <section class="glass-strong rounded-2xl p-5 mb-8 slide-up" style="animation-delay:0.9s">
-     <h3 class="text-sm font-600 mb-4 text-amber-800">Recent Activity</h3>
-     <div class="space-y-4 max-h-72 overflow-y-auto pr-2" id="timeline"></div>
+     <h3 class="text-sm font-600 mb-4 text-slate-300">Recent Activity</h3>
+     <div class="space-y-4" id="timeline"></div>
     </section><!-- Footer -->
     <footer class="text-center py-6 slide-up" style="animation-delay:1s">
-     <p id="footer-text" class="text-sm text-slate-500">Built by Sujay Chandra Das</p>
+     <p id="footer-text" class="text-sm text-slate-500">Built by Sujay Chandra Das!!!!!!.....</p>
      <div class="flex justify-center gap-4 mt-3">
       <a href="#" class="text-slate-600 hover:text-indigo-400 transition-colors"><i data-lucide="github" class="w-5 h-5"></i></a> <a href="#" class="text-slate-600 hover:text-indigo-400 transition-colors"><i data-lucide="linkedin" class="w-5 h-5"></i></a> <a href="#" class="text-slate-600 hover:text-indigo-400 transition-colors"><i data-lucide="globe" class="w-5 h-5"></i></a>
      </div>
@@ -250,15 +254,16 @@ let allData = [];
 let activeFilter = 'all';
 let sortConfig = { key: null, asc: true };
 
+const timelineData = [
+  { icon: "check-circle", color: "text-green-700", text: "Feature Delivered: Analytics Dashboard for TechVista", time: "2 hours ago" },
+  { icon: "indian-rupee", color: "text-amber-700", text: "Payment Received: ₹60,000 from ShopEase", time: "1 day ago" },
+  { icon: "folder", color: "text-amber-600", text: "Project Completed: Portfolio Website for CreativeHub", time: "3 days ago" },
+  { icon: "user-plus", color: "text-orange-700", text: "New Client Added: FinTrack", time: "5 days ago" },
+  { icon: "check-circle", color: "text-green-700", text: "Feature Delivered: REST API Gateway for DataFlow", time: "1 week ago" },
+];
+
 // Load data when DOM is ready
 window.addEventListener("DOMContentLoaded", loadData);
-
-// Escape user/sheet content before injecting into innerHTML
-function escapeHtml(str) {
-  return String(str == null ? '' : str).replace(/[&<>"']/g, function(c) {
-    return ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' })[c];
-  });
-}
 
 // Fetch data from API and initialize dashboard
 async function loadData() {
@@ -269,36 +274,23 @@ async function loadData() {
     if (!response.ok) throw new Error('HTTP ' + response.status);
     const json = await response.json();
     if (!json.success) throw new Error('API returned unsuccessful response');
-
-    allData = (json.data || [])
-      .map(function(item) {
-        const id = item.ID;
-        const featureName = item["Feature Name"];
-        const hoursWorked = Number(item["Hours Worked"]) || 0;
-        const hourlyRate = Number(item["Hourly Rate"]) || 0;
-        const totalAmount = Number(item["Total Amount"]) || 0;
-        const amountPaid = Number(item["Amount Paid"]) || 0;
-        const pendingAmount = typeof item.pendingAmount === 'number'
-          ? item.pendingAmount
-          : (totalAmount - amountPaid);
-        const paymentStatus = (item["Payment Status"] || "").toString().trim().toLowerCase();
-        const date = item.Date || "";
-        return { id, featureName, hoursWorked, hourlyRate, totalAmount, amountPaid, pendingAmount, paymentStatus, date };
-      })
-      // Only real records: drop any row with no ID or no Feature Name
-      // (this is what was producing the "extra empty rows" after real data)
-      .filter(function(item) {
-        return item.id !== undefined && item.id !== null && String(item.id).trim() !== ""
-          && item.featureName && String(item.featureName).trim() !== "";
-      });
-
+    allData = json.data.map(item => ({
+      id: item.ID,
+      featureName: item["Feature Name"],
+      hoursWorked: item["Hours Worked"],
+      totalAmount: item["Total Amount"],
+      amountPaid: item["Amount Paid"],
+      pendingAmount: item.pendingAmount,
+      paymentStatus: item["Payment Status"].toLowerCase(),
+      date: item.Date
+    }));
     updateDashboard(allData);
     applyFilters();
     animateCounters();
-    renderValueChart();
-    renderHoursAggChart();
-    renderStatusAmountChart();
-    renderStatusCountChart();
+    renderEarningsChart();
+    renderHoursChart();
+    renderClientChart();
+    renderCategoryChart();
     renderTimeline();
     lucide.createIcons();
   } catch (error) {
@@ -307,104 +299,68 @@ async function loadData() {
   }
 }
 
-// Update dashboard summary cards with values computed from real data only
+// Update dashboard summary cards with computed values
 function updateDashboard(data) {
   const totalEarnings = data.reduce((s, i) => s + i.totalAmount, 0);
   const amountReceived = data.reduce((s, i) => s + i.amountPaid, 0);
   const pendingAmount = data.reduce((s, i) => s + i.pendingAmount, 0);
-  const hoursLogged = data.reduce((s, i) => s + i.hoursWorked, 0);
   const featuresDelivered = data.length;
-  const paidCount = data.filter(i => i.paymentStatus === 'paid').length;
-  const partialCount = data.filter(i => i.paymentStatus === 'partial').length;
-  const pendingCount = data.filter(i => i.paymentStatus === 'pending').length;
-  const avgHours = featuresDelivered ? Math.round(hoursLogged / featuresDelivered) : 0;
-  const avgValue = featuresDelivered ? Math.round(totalEarnings / featuresDelivered) : 0;
-  const avgRate = featuresDelivered ? Math.round(data.reduce((s, i) => s + i.hourlyRate, 0) / featuresDelivered) : 0;
-
-  const counters = document.querySelectorAll('.counter');
-  if (counters[0]) counters[0].dataset.target = totalEarnings;
-  if (counters[1]) counters[1].dataset.target = amountReceived;
-  if (counters[2]) counters[2].dataset.target = featuresDelivered;
-  if (counters[3]) counters[3].dataset.target = hoursLogged;
-
-  const earningsBadge = document.getElementById('earnings-badge');
-  if (earningsBadge) earningsBadge.textContent = featuresDelivered + (featuresDelivered === 1 ? ' feature' : ' features');
-
-  const receivedBadge = document.getElementById('received-badge');
-  if (receivedBadge) receivedBadge.textContent = paidCount + ' paid';
-
-  const deliveredBadge = document.getElementById('delivered-badge');
-  if (deliveredBadge) deliveredBadge.textContent = pendingCount + ' pending';
-
-  const hoursBadge = document.getElementById('hours-badge');
-  if (hoursBadge) hoursBadge.textContent = avgHours + 'h avg';
-
-  const heroAmount = document.getElementById('hero-pending-amount');
-  if (heroAmount) heroAmount.textContent = '₹' + pendingAmount.toLocaleString('en-IN');
-
-  const hourlyBadge = document.getElementById('hourly-rate-badge');
-  if (hourlyBadge && featuresDelivered) hourlyBadge.textContent = '₹' + avgRate.toLocaleString('en-IN') + '/hr';
-
-  const miniPending = document.getElementById('mini-pending-features');
-  if (miniPending) miniPending.textContent = pendingCount;
-
-  const miniCompleted = document.getElementById('mini-completed-features');
-  if (miniCompleted) miniCompleted.textContent = paidCount;
-
-  const miniAvgValue = document.getElementById('mini-avg-value');
-  if (miniAvgValue) miniAvgValue.textContent = '₹' + avgValue.toLocaleString('en-IN');
-
-  const miniTopFeature = document.getElementById('mini-top-feature');
-  if (miniTopFeature) {
-    const top = data.reduce((max, i) => (!max || i.totalAmount > max.totalAmount ? i : max), null);
-    miniTopFeature.textContent = top ? top.featureName : '—';
+  const hoursLogged = data.reduce((s, i) => s + i.hoursWorked, 0);
+  const cards = document.querySelectorAll('.counter');
+  if (cards.length >= 4) {
+    cards[0].dataset.target = totalEarnings;
+    cards[1].dataset.target = amountReceived;
+    document.querySelector('.gradient-card-2 div:last-child').textContent = 'Amount Received';
+    cards[2].dataset.target = featuresDelivered;
+    cards[3].dataset.target = hoursLogged;
+  }
+  const headerBox = document.querySelector('.glass.rounded-xl.text-right');
+  if (headerBox) {
+    headerBox.querySelector('.text-xs').textContent = 'Pending Amount';
+    headerBox.querySelector('.text-lg').textContent = '₹' + pendingAmount.toLocaleString('en-IN');
+    headerBox.querySelector('.text-lg').className = 'text-lg font-700 text-red-700 font-mono';
   }
 }
 
-// Render table rows from filtered/sorted data — exactly one row per real record, no padding
+// Render table rows from filtered/sorted data
 function renderTable(data) {
   const tbody = document.getElementById('table-body');
   const mobile = document.getElementById('mobile-cards');
-  tbody.innerHTML = "";
-  mobile.innerHTML = "";
-
   let sorted = [...data];
   if (sortConfig.key) {
     sorted.sort((a, b) => {
       let va = a[sortConfig.key], vb = b[sortConfig.key];
-      if (typeof va === 'string') { va = va.toLowerCase(); vb = (vb || '').toString().toLowerCase(); }
+      if (typeof va === 'string') { va = va.toLowerCase(); vb = vb.toLowerCase(); }
       return va < vb ? (sortConfig.asc ? -1 : 1) : va > vb ? (sortConfig.asc ? 1 : -1) : 0;
     });
   }
-
-  if (sorted.length === 0) {
-    tbody.innerHTML = '<tr><td colspan="9" class="px-4 py-8 text-center text-amber-700">No records found.</td></tr>';
-    mobile.innerHTML = '<div class="glass rounded-xl p-4 text-center text-amber-700">No records found.</div>';
-    return;
-  }
-
-  sorted.forEach(function(item) {
-    const pct = item.totalAmount > 0 ? Math.round((item.amountPaid / item.totalAmount) * 100) : 0;
-    const statusClass = item.paymentStatus === 'paid' ? 'bg-green-600/20 text-green-700' : item.paymentStatus === 'partial' ? 'bg-amber-600/20 text-amber-700' : 'bg-red-600/20 text-red-700';
-    const barColor = item.paymentStatus === 'paid' ? 'bg-green-700' : item.paymentStatus === 'partial' ? 'bg-amber-700' : 'bg-red-700';
-    tbody.innerHTML += '<tr class="table-row border-b border-amber-600/10 cursor-pointer">' +
-      '<td class="px-4 py-3 font-mono text-xs text-amber-700">' + escapeHtml(item.id) + '</td>' +
-      '<td class="px-4 py-3 text-amber-900">' + escapeHtml(item.featureName) + '</td>' +
+  var rows = '';
+  var cards = '';
+  for (var i = 0; i < sorted.length; i++) {
+    var item = sorted[i];
+    var pct = item.totalAmount > 0 ? Math.round((item.amountPaid / item.totalAmount) * 100) : 0;
+    var statusClass = item.paymentStatus === 'paid' ? 'bg-green-600/20 text-green-700' : item.paymentStatus === 'partial' ? 'bg-amber-600/20 text-amber-700' : 'bg-red-600/20 text-red-700';
+    var barColor = item.paymentStatus === 'paid' ? 'bg-green-700' : item.paymentStatus === 'partial' ? 'bg-amber-700' : 'bg-red-700';
+    rows += '<tr class="table-row border-b border-amber-600/10 cursor-pointer">' +
+      '<td class="px-4 py-3 font-mono text-xs text-amber-700">' + item.id + '</td>' +
+      '<td class="px-4 py-3 text-amber-900">' + item.featureName + '</td>' +
       '<td class="px-4 py-3 text-right font-mono text-amber-900">' + item.hoursWorked + 'h</td>' +
       '<td class="px-4 py-3 text-right font-mono font-500 text-amber-900">₹' + item.totalAmount.toLocaleString('en-IN') + '</td>' +
       '<td class="px-4 py-3 text-right font-mono text-green-700">₹' + item.amountPaid.toLocaleString('en-IN') + '</td>' +
       '<td class="px-4 py-3 text-right font-mono text-red-700">₹' + item.pendingAmount.toLocaleString('en-IN') + '</td>' +
-      '<td class="px-4 py-3 text-center"><span class="text-xs px-2 py-0.5 rounded-full ' + statusClass + ' capitalize">' + escapeHtml(item.paymentStatus) + '</span></td>' +
-      '<td class="px-4 py-3 text-xs text-amber-700">' + escapeHtml(item.date) + '</td>' +
+      '<td class="px-4 py-3 text-center"><span class="text-xs px-2 py-0.5 rounded-full ' + statusClass + ' capitalize">' + item.paymentStatus + '</span></td>' +
+      '<td class="px-4 py-3 text-xs text-amber-700">' + item.date + '</td>' +
       '<td class="px-4 py-3 w-24"><div class="h-1.5 bg-amber-600/10 rounded-full overflow-hidden"><div class="h-full ' + barColor + ' progress-bar rounded-full" style="width:' + pct + '%"></div></div></td>' +
     '</tr>';
-    mobile.innerHTML += '<div class="glass rounded-xl p-4 card-hover">' +
-      '<div class="flex justify-between items-start mb-2"><div><div class="font-500 text-amber-900">' + escapeHtml(item.featureName) + '</div><div class="text-xs text-amber-700">ID: ' + escapeHtml(item.id) + '</div></div>' +
-      '<span class="text-xs px-2 py-0.5 rounded-full ' + statusClass + ' capitalize">' + escapeHtml(item.paymentStatus) + '</span></div>' +
+    cards += '<div class="glass rounded-xl p-4 card-hover">' +
+      '<div class="flex justify-between items-start mb-2"><div><div class="font-500 text-amber-900">' + item.featureName + '</div><div class="text-xs text-amber-700">ID: ' + item.id + '</div></div>' +
+      '<span class="text-xs px-2 py-0.5 rounded-full ' + statusClass + ' capitalize">' + item.paymentStatus + '</span></div>' +
       '<div class="flex justify-between text-xs text-amber-700 mt-2"><span>' + item.hoursWorked + 'h</span><span>₹' + item.totalAmount.toLocaleString('en-IN') + '</span></div>' +
       '<div class="h-1.5 bg-amber-600/10 rounded-full overflow-hidden mt-2"><div class="h-full ' + barColor + ' progress-bar rounded-full" style="width:' + pct + '%"></div></div>' +
     '</div>';
-  });
+  }
+  tbody.innerHTML = rows;
+  mobile.innerHTML = cards;
 }
 
 // Filter buttons
@@ -418,7 +374,7 @@ document.querySelectorAll('.filter-btn').forEach(function(btn) {
 });
 document.getElementById('search-input').addEventListener('input', applyFilters);
 
-// Apply filters and search on the local dataset (the real API data, nothing else)
+// Apply filters and search on the local dataset
 function applyFilters() {
   var q = document.getElementById('search-input').value.toLowerCase();
   var filtered = allData.filter(function(item) {
@@ -445,131 +401,112 @@ document.querySelectorAll('th.sortable').forEach(function(th) {
   });
 });
 
-// Charts — all derived from allData, scaled to whatever number of records the API returns
-function renderValueChart() {
-  const top = [...allData].sort((a, b) => b.totalAmount - a.totalAmount).slice(0, 5);
-  const max = top.length ? top[0].totalAmount || 1 : 1;
-  const html = top.map(i =>
-    '<div><div class="flex justify-between text-xs mb-1"><span class="text-amber-700 truncate pr-2">' + escapeHtml(i.featureName) + '</span><span class="font-mono text-amber-700 shrink-0">₹' + i.totalAmount.toLocaleString('en-IN') + '</span></div><div class="h-2 bg-amber-600/10 rounded-full overflow-hidden"><div class="h-full bg-amber-700 rounded-full progress-bar" style="width:' + ((i.totalAmount / max) * 100) + '%"></div></div></div>'
-  ).join('');
-  document.getElementById('value-chart').innerHTML = html || '<div class="text-xs text-amber-700">No data yet.</div>';
+// Charts (static sample data)
+function renderEarningsChart() {
+  const data = [85000, 142000, 168000, 195000, 213000, 284500];
+  const max = Math.max(...data);
+  const container = document.getElementById('earnings-chart');
+  container.innerHTML = data.map((v, i) => '<div class="flex-1 flex flex-col items-center gap-1"><div class="w-full bg-amber-600/20 rounded-t-lg relative overflow-hidden" style="height:0%" data-height="' + ((v/max)*100) + '%"><div class="absolute inset-0 bg-gradient-to-t from-amber-700 to-amber-600 opacity-60 rounded-t-lg"></div></div><div class="text-xs font-mono text-amber-700">₹' + (v/1000).toFixed(0) + 'k</div></div>').join('');
+  setTimeout(function() { container.querySelectorAll('[data-height]').forEach(function(el) { el.style.height = el.dataset.height; }); }, 100);
 }
 
-function renderHoursAggChart() {
-  const top = [...allData].sort((a, b) => b.hoursWorked - a.hoursWorked).slice(0, 5);
-  const max = top.length ? top[0].hoursWorked || 1 : 1;
-  const html = top.map(i =>
-    '<div><div class="flex justify-between text-xs mb-1"><span class="text-amber-700 truncate pr-2">' + escapeHtml(i.featureName) + '</span><span class="font-mono text-amber-700 shrink-0">' + i.hoursWorked + 'h</span></div><div class="h-2 bg-amber-600/10 rounded-full overflow-hidden"><div class="h-full bg-green-700 rounded-full progress-bar" style="width:' + ((i.hoursWorked / max) * 100) + '%"></div></div></div>'
-  ).join('');
-  document.getElementById('hours-chart').innerHTML = html || '<div class="text-xs text-amber-700">No data yet.</div>';
+function renderHoursChart() {
+  const data = [95, 120, 135, 148, 160, 174];
+  const max = Math.max(...data);
+  const container = document.getElementById('hours-chart');
+  container.innerHTML = data.map(v => '<div class="flex-1 flex flex-col items-center gap-1"><div class="w-full bg-green-700/20 rounded-t-lg relative overflow-hidden" style="height:0%" data-height="' + ((v/max)*100) + '%"><div class="absolute inset-0 bg-gradient-to-t from-green-700 to-green-600 opacity-60 rounded-t-lg"></div></div><div class="text-xs font-mono text-green-700">' + v + 'h</div></div>').join('');
+  setTimeout(function() { container.querySelectorAll('[data-height]').forEach(function(el) { el.style.height = el.dataset.height; }); }, 200);
 }
 
-function renderStatusAmountChart() {
-  const statuses = ['paid', 'partial', 'pending'];
-  const colors = { paid: 'bg-green-700', partial: 'bg-amber-700', pending: 'bg-red-700' };
-  const sums = statuses.map(s => allData.filter(i => i.paymentStatus === s).reduce((a, i) => a + i.totalAmount, 0));
-  const max = Math.max(...sums, 1);
-  document.getElementById('status-amount-chart').innerHTML = statuses.map((s, idx) =>
-    '<div><div class="flex justify-between text-xs mb-1"><span class="text-amber-700 capitalize">' + s + '</span><span class="font-mono text-amber-700">₹' + sums[idx].toLocaleString('en-IN') + '</span></div><div class="h-2 bg-amber-600/10 rounded-full overflow-hidden"><div class="h-full ' + colors[s] + ' rounded-full progress-bar" style="width:' + ((sums[idx] / max) * 100) + '%"></div></div></div>'
-  ).join('');
+function renderClientChart() {
+  const clients = [{ name: "TechVista", amount: 180000, color: "bg-amber-700" }, { name: "ShopEase", amount: 97500, color: "bg-orange-700" }, { name: "DataFlow", amount: 82500, color: "bg-green-700" }, { name: "CreativeHub", amount: 60000, color: "bg-blue-800" }, { name: "HealthFirst", amount: 57600, color: "bg-red-700" }];
+  const max = clients[0].amount;
+  document.getElementById('client-chart').innerHTML = clients.map(c => '<div><div class="flex justify-between text-xs mb-1"><span class="text-amber-700">' + c.name + '</span><span class="font-mono text-amber-700">₹' + (c.amount/1000).toFixed(0) + 'k</span></div><div class="h-2 bg-amber-600/10 rounded-full overflow-hidden"><div class="h-full ' + c.color + ' rounded-full progress-bar" style="width:' + (c.amount/max)*100 + '%"></div></div></div>').join('');
 }
 
-function renderStatusCountChart() {
-  const statuses = ['paid', 'partial', 'pending'];
-  const colors = { paid: 'bg-green-700', partial: 'bg-amber-700', pending: 'bg-red-700' };
-  const counts = statuses.map(s => allData.filter(i => i.paymentStatus === s).length);
-  const max = Math.max(...counts, 1);
-  document.getElementById('status-count-chart').innerHTML = statuses.map((s, idx) =>
-    '<div><div class="flex justify-between text-xs mb-1"><span class="text-amber-700 capitalize">' + s + '</span><span class="font-mono text-amber-700">' + counts[idx] + '</span></div><div class="h-2 bg-amber-600/10 rounded-full overflow-hidden"><div class="h-full ' + colors[s] + ' rounded-full progress-bar" style="width:' + ((counts[idx] / max) * 100) + '%"></div></div></div>'
-  ).join('');
+function renderCategoryChart() {
+  const cats = [{ name: "API Integration", amount: 204900, color: "bg-amber-700" }, { name: "Shopify Dev", amount: 97500, color: "bg-orange-700" }, { name: "Dashboard", amount: 108000, color: "bg-green-700" }, { name: "Web Dev", amount: 113200, color: "bg-blue-800" }, { name: "AI/ML", amount: 57600, color: "bg-red-700" }];
+  const max = cats[0].amount;
+  document.getElementById('category-chart').innerHTML = cats.map(c => '<div><div class="flex justify-between text-xs mb-1"><span class="text-amber-700">' + c.name + '</span><span class="font-mono text-amber-700">₹' + (c.amount/1000).toFixed(0) + 'k</span></div><div class="h-2 bg-amber-600/10 rounded-full overflow-hidden"><div class="h-full ' + c.color + ' rounded-full progress-bar" style="width:' + (c.amount/max)*100 + '%"></div></div></div>').join('');
 }
 
-// Timeline — built from real records, most recent ID first
+// Timeline
 function renderTimeline() {
-  const labels = {
-    paid: 'Feature delivered & paid',
-    partial: 'Partially paid',
-    pending: 'Payment pending'
-  };
-  const items = [...allData]
-    .sort((a, b) => (Number(b.id) || 0) - (Number(a.id) || 0))
-    .slice(0, 8);
-  const html = items.map(function(i) {
-    const label = labels[i.paymentStatus] || 'Updated';
-    return '<div class="flex gap-3 items-start"><div class="timeline-dot w-2 h-2 rounded-full bg-amber-700 mt-2 shrink-0"></div><div class="flex-1"><div class="text-sm text-amber-900">' + label + ': ' + escapeHtml(i.featureName) + '</div><div class="text-xs text-amber-700 mt-0.5">' + escapeHtml(i.date) + '</div></div></div>';
-  }).join('');
-  document.getElementById('timeline').innerHTML = html || '<div class="text-xs text-amber-700">No activity yet.</div>';
+  document.getElementById('timeline').innerHTML = timelineData.map(t => '<div class="flex gap-3 items-start"><div class="timeline-dot w-2 h-2 rounded-full bg-amber-700 mt-2 shrink-0"></div><div class="flex-1"><div class="text-sm text-amber-900">' + t.text + '</div><div class="text-xs text-amber-700 mt-0.5">' + t.time + '</div></div></div>').join('');
 }
 
-// Animated counters — explicit currency vs. plain-number formatting (no magnitude guessing)
+// Animated counters
 function animateCounters() {
   document.querySelectorAll('.counter').forEach(function(el) {
-    const target = parseInt(el.dataset.target, 10) || 0;
-    const isCurrency = el.dataset.format === 'currency';
-    if (target === 0) { el.textContent = isCurrency ? '₹0' : '0'; return; }
+    const target = parseInt(el.dataset.target);
+    const isRupee = target > 1000;
     let current = 0;
-    const step = Math.max(1, Math.ceil(target / 60));
+    const step = Math.ceil(target / 60);
     const interval = setInterval(function() {
       current += step;
       if (current >= target) { current = target; clearInterval(interval); }
-      el.textContent = isCurrency ? '₹' + current.toLocaleString('en-IN') : current.toLocaleString();
+      el.textContent = isRupee ? '₹' + current.toLocaleString('en-IN') : current.toLocaleString();
     }, 20);
   });
 }
 
-// Element SDK
-const defaultConfig = {
-  main_title: "Feature Ledger",
-  subtitle_text: "Track every feature delivered, every hour invested, and every rupee earned.",
-  hourly_rate_text: "₹0/hr",
-  footer_text: "Built by Sujay Chandra Das",
-  background_color: "#e8dcc8",
-  accent_color: "#b8860b",
-  text_color: "#3d2817",
-  surface_color: "#fff9f0",
-  secondary_action_color: "#d4af37",
-  font_family: "Outfit",
-  font_size: 16
-};
+// Element SDK (only when available, e.g. on Netlify)
+if (typeof window.elementSdk !== 'undefined' && window.elementSdk.init) {
+  const defaultConfig = {
+    main_title: "Feature Ledger",
+    subtitle_text: "Track every feature delivered, every hour invested, and every rupee earned.",
+    hourly_rate_text: "₹1,500/hr",
+    footer_text: "Built by Sujay Chandra Das",
+    background_color: "#e8dcc8",
+    accent_color: "#b8860b",
+    text_color: "#3d2817",
+    surface_color: "#fff9f0",
+    secondary_action_color: "#d4af37",
+    font_family: "Outfit",
+    font_size: 16
+  };
 
-window.elementSdk.init({
-  defaultConfig,
-  onConfigChange: async (config) => {
-    const c = { ...defaultConfig, ...config };
-    document.getElementById('main-title').textContent = c.main_title;
-    document.getElementById('subtitle-text').textContent = c.subtitle_text;
-    document.getElementById('footer-text').textContent = c.footer_text;
-    document.body.style.background = c.background_color;
-    document.body.style.color = c.text_color;
-    document.body.style.fontFamily = `${c.font_family}, Outfit, sans-serif`;
-    const baseSize = c.font_size || 16;
-    document.getElementById('main-title').style.fontSize = `${baseSize * 2.2}px`;
-    document.getElementById('subtitle-text').style.fontSize = `${baseSize * 0.9}px`;
-  },
-  mapToCapabilities: (config) => {
-    const c = { ...defaultConfig, ...config };
-    return {
-      recolorables: [
-        { get: () => c.background_color, set: (v) => { c.background_color = v; window.elementSdk.setConfig({ background_color: v }); } },
-        { get: () => c.surface_color, set: (v) => { c.surface_color = v; window.elementSdk.setConfig({ surface_color: v }); } },
-        { get: () => c.text_color, set: (v) => { c.text_color = v; window.elementSdk.setConfig({ text_color: v }); } },
-        { get: () => c.accent_color, set: (v) => { c.accent_color = v; window.elementSdk.setConfig({ accent_color: v }); } },
-        { get: () => c.secondary_action_color, set: (v) => { c.secondary_action_color = v; window.elementSdk.setConfig({ secondary_action_color: v }); } },
-      ],
-      borderables: [],
-      fontEditable: { get: () => c.font_family, set: (v) => { c.font_family = v; window.elementSdk.setConfig({ font_family: v }); } },
-      fontSizeable: { get: () => c.font_size, set: (v) => { c.font_size = v; window.elementSdk.setConfig({ font_size: v }); } }
-    };
-  },
-  mapToEditPanelValues: (config) => {
-    const c = { ...defaultConfig, ...config };
-    return new Map([
-      ["main_title", c.main_title],
-      ["subtitle_text", c.subtitle_text],
-      ["footer_text", c.footer_text]
-    ]);
-  }
-});
+  window.elementSdk.init({
+    defaultConfig,
+    onConfigChange: async (config) => {
+      const c = { ...defaultConfig, ...config };
+      document.getElementById('main-title').textContent = c.main_title;
+      document.getElementById('subtitle-text').textContent = c.subtitle_text;
+      document.getElementById('hourly-rate-badge').textContent = c.hourly_rate_text;
+      document.getElementById('footer-text').textContent = c.footer_text;
+      document.body.style.background = c.background_color;
+      document.body.style.color = c.text_color;
+      document.body.style.fontFamily = `${c.font_family}, Outfit, sans-serif`;
+      const baseSize = c.font_size || 16;
+      document.getElementById('main-title').style.fontSize = `${baseSize * 2.2}px`;
+      document.getElementById('subtitle-text').style.fontSize = `${baseSize * 0.9}px`;
+    },
+    mapToCapabilities: (config) => {
+      const c = { ...defaultConfig, ...config };
+      return {
+        recolorables: [
+          { get: () => c.background_color, set: (v) => { c.background_color = v; if (window.elementSdk && window.elementSdk.setConfig) window.elementSdk.setConfig({ background_color: v }); } },
+          { get: () => c.surface_color, set: (v) => { c.surface_color = v; if (window.elementSdk && window.elementSdk.setConfig) window.elementSdk.setConfig({ surface_color: v }); } },
+          { get: () => c.text_color, set: (v) => { c.text_color = v; if (window.elementSdk && window.elementSdk.setConfig) window.elementSdk.setConfig({ text_color: v }); } },
+          { get: () => c.accent_color, set: (v) => { c.accent_color = v; if (window.elementSdk && window.elementSdk.setConfig) window.elementSdk.setConfig({ accent_color: v }); } },
+          { get: () => c.secondary_action_color, set: (v) => { c.secondary_action_color = v; if (window.elementSdk && window.elementSdk.setConfig) window.elementSdk.setConfig({ secondary_action_color: v }); } },
+        ],
+        borderables: [],
+        fontEditable: { get: () => c.font_family, set: (v) => { c.font_family = v; if (window.elementSdk && window.elementSdk.setConfig) window.elementSdk.setConfig({ font_family: v }); } },
+        fontSizeable: { get: () => c.font_size, set: (v) => { c.font_size = v; if (window.elementSdk && window.elementSdk.setConfig) window.elementSdk.setConfig({ font_size: v }); } }
+      };
+    },
+    mapToEditPanelValues: (config) => {
+      const c = { ...defaultConfig, ...config };
+      return new Map([
+        ["main_title", c.main_title],
+        ["subtitle_text", c.subtitle_text],
+        ["hourly_rate_text", c.hourly_rate_text],
+        ["footer_text", c.footer_text]
+      ]);
+    }
+  });
+}
 </script>
  <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'a0d45f1ac3b30b24',t:'MTc4MTcyMzYwNi4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
 </html>
