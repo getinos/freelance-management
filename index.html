@@ -281,7 +281,7 @@ async function loadData() {
       totalAmount: item["Total Amount"],
       amountPaid: item["Amount Paid"],
       pendingAmount: item.pendingAmount,
-      paymentStatus: item["Payment Status"].toLowerCase(),
+      paymentStatus: (item["Payment Status"] || "pending").toLowerCase(),
       date: item.Date
     }));
     updateDashboard(allData);
