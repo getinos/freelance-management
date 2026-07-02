@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Feature Ledger</title>
-  <script src="https://cdn.tailwindcss.com/3.4.17"></script>
+  <script src="https://cdn.tailwindcss.com"></script>
   <script src="https://cdn.jsdelivr.net/npm/lucide@0.263.0/dist/umd/lucide.min.js"></script>
   <script src="/_sdk/element_sdk.js"></script>
   <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&amp;family=JetBrains+Mono:wght@400;500&amp;display=swap" rel="stylesheet">
@@ -450,61 +450,63 @@ function animateCounters() {
   });
 }
 
-// Element SDK
-const defaultConfig = {
-  main_title: "Feature Ledger",
-  subtitle_text: "Track every feature delivered, every hour invested, and every rupee earned.",
-  hourly_rate_text: "₹1,500/hr",
-  footer_text: "Built by Sujay Chandra Das",
-  background_color: "#e8dcc8",
-  accent_color: "#b8860b",
-  text_color: "#3d2817",
-  surface_color: "#fff9f0",
-  secondary_action_color: "#d4af37",
-  font_family: "Outfit",
-  font_size: 16
-};
+// Element SDK (only when available, e.g. on Netlify)
+if (typeof window.elementSdk !== 'undefined' && window.elementSdk.init) {
+  const defaultConfig = {
+    main_title: "Feature Ledger",
+    subtitle_text: "Track every feature delivered, every hour invested, and every rupee earned.",
+    hourly_rate_text: "₹1,500/hr",
+    footer_text: "Built by Sujay Chandra Das",
+    background_color: "#e8dcc8",
+    accent_color: "#b8860b",
+    text_color: "#3d2817",
+    surface_color: "#fff9f0",
+    secondary_action_color: "#d4af37",
+    font_family: "Outfit",
+    font_size: 16
+  };
 
-window.elementSdk.init({
-  defaultConfig,
-  onConfigChange: async (config) => {
-    const c = { ...defaultConfig, ...config };
-    document.getElementById('main-title').textContent = c.main_title;
-    document.getElementById('subtitle-text').textContent = c.subtitle_text;
-    document.getElementById('hourly-rate-badge').textContent = c.hourly_rate_text;
-    document.getElementById('footer-text').textContent = c.footer_text;
-    document.body.style.background = c.background_color;
-    document.body.style.color = c.text_color;
-    document.body.style.fontFamily = `${c.font_family}, Outfit, sans-serif`;
-    const baseSize = c.font_size || 16;
-    document.getElementById('main-title').style.fontSize = `${baseSize * 2.2}px`;
-    document.getElementById('subtitle-text').style.fontSize = `${baseSize * 0.9}px`;
-  },
-  mapToCapabilities: (config) => {
-    const c = { ...defaultConfig, ...config };
-    return {
-      recolorables: [
-        { get: () => c.background_color, set: (v) => { c.background_color = v; window.elementSdk.setConfig({ background_color: v }); } },
-        { get: () => c.surface_color, set: (v) => { c.surface_color = v; window.elementSdk.setConfig({ surface_color: v }); } },
-        { get: () => c.text_color, set: (v) => { c.text_color = v; window.elementSdk.setConfig({ text_color: v }); } },
-        { get: () => c.accent_color, set: (v) => { c.accent_color = v; window.elementSdk.setConfig({ accent_color: v }); } },
-        { get: () => c.secondary_action_color, set: (v) => { c.secondary_action_color = v; window.elementSdk.setConfig({ secondary_action_color: v }); } },
-      ],
-      borderables: [],
-      fontEditable: { get: () => c.font_family, set: (v) => { c.font_family = v; window.elementSdk.setConfig({ font_family: v }); } },
-      fontSizeable: { get: () => c.font_size, set: (v) => { c.font_size = v; window.elementSdk.setConfig({ font_size: v }); } }
-    };
-  },
-  mapToEditPanelValues: (config) => {
-    const c = { ...defaultConfig, ...config };
-    return new Map([
-      ["main_title", c.main_title],
-      ["subtitle_text", c.subtitle_text],
-      ["hourly_rate_text", c.hourly_rate_text],
-      ["footer_text", c.footer_text]
-    ]);
-  }
-});
+  window.elementSdk.init({
+    defaultConfig,
+    onConfigChange: async (config) => {
+      const c = { ...defaultConfig, ...config };
+      document.getElementById('main-title').textContent = c.main_title;
+      document.getElementById('subtitle-text').textContent = c.subtitle_text;
+      document.getElementById('hourly-rate-badge').textContent = c.hourly_rate_text;
+      document.getElementById('footer-text').textContent = c.footer_text;
+      document.body.style.background = c.background_color;
+      document.body.style.color = c.text_color;
+      document.body.style.fontFamily = `${c.font_family}, Outfit, sans-serif`;
+      const baseSize = c.font_size || 16;
+      document.getElementById('main-title').style.fontSize = `${baseSize * 2.2}px`;
+      document.getElementById('subtitle-text').style.fontSize = `${baseSize * 0.9}px`;
+    },
+    mapToCapabilities: (config) => {
+      const c = { ...defaultConfig, ...config };
+      return {
+        recolorables: [
+          { get: () => c.background_color, set: (v) => { c.background_color = v; if (window.elementSdk && window.elementSdk.setConfig) window.elementSdk.setConfig({ background_color: v }); } },
+          { get: () => c.surface_color, set: (v) => { c.surface_color = v; if (window.elementSdk && window.elementSdk.setConfig) window.elementSdk.setConfig({ surface_color: v }); } },
+          { get: () => c.text_color, set: (v) => { c.text_color = v; if (window.elementSdk && window.elementSdk.setConfig) window.elementSdk.setConfig({ text_color: v }); } },
+          { get: () => c.accent_color, set: (v) => { c.accent_color = v; if (window.elementSdk && window.elementSdk.setConfig) window.elementSdk.setConfig({ accent_color: v }); } },
+          { get: () => c.secondary_action_color, set: (v) => { c.secondary_action_color = v; if (window.elementSdk && window.elementSdk.setConfig) window.elementSdk.setConfig({ secondary_action_color: v }); } },
+        ],
+        borderables: [],
+        fontEditable: { get: () => c.font_family, set: (v) => { c.font_family = v; if (window.elementSdk && window.elementSdk.setConfig) window.elementSdk.setConfig({ font_family: v }); } },
+        fontSizeable: { get: () => c.font_size, set: (v) => { c.font_size = v; if (window.elementSdk && window.elementSdk.setConfig) window.elementSdk.setConfig({ font_size: v }); } }
+      };
+    },
+    mapToEditPanelValues: (config) => {
+      const c = { ...defaultConfig, ...config };
+      return new Map([
+        ["main_title", c.main_title],
+        ["subtitle_text", c.subtitle_text],
+        ["hourly_rate_text", c.hourly_rate_text],
+        ["footer_text", c.footer_text]
+      ]);
+    }
+  });
+}
 </script>
  <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'a0d45f1ac3b30b24',t:'MTc4MTcyMzYwNi4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
 </html>
